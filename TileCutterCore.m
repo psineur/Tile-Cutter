@@ -14,6 +14,7 @@
 @synthesize keepAllTiles, tileWidth, tileHeight, inputFilename, 
 			outputBaseFilename, outputSuffix, operationsDelegate, 
 			queue, allTilesInfo, imageInfo, outputFormat;
+@synthesize tileRowCount, tileColCount, progressCol, progressRow;
 @synthesize rigidTiles;
 @synthesize contentScaleFactor;
 @synthesize POTTiles;
@@ -22,7 +23,7 @@
 
 - (id) init
 {
-	if ( (self == [super init]) )
+	if ( self == [super init]) 
 	{
 		self.queue = [[[NSOperationQueue alloc] init] autorelease];
 		[self.queue setMaxConcurrentOperationCount:1];
