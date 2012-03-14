@@ -428,6 +428,7 @@
 				GCC_PREFIX_HEADER = Tile_Cutter_Prefix.pch;
 				INFOPLIST_FILE = "Tile_Cutter-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Tile Cutter";
 			};
 			name = Debug;
@@ -443,6 +444,7 @@
 				GCC_PREFIX_HEADER = Tile_Cutter_Prefix.pch;
 				INFOPLIST_FILE = "Tile_Cutter-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Tile Cutter";
 			};
 			name = Release;
