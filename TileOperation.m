@@ -153,8 +153,10 @@
 				
 				if ([self isCancelled])
 					goto finish;
-				
-				NSString *outPath = [NSString stringWithFormat:@"%@_%d_%d%@.%@", baseFilename, row, column, self.outputSuffix, extension];
+				//modify by jk 原配置
+//				NSString *outPath = [NSString stringWithFormat:@"%@_%d_%d%@.%@", baseFilename, row, column, self.outputSuffix, extension];
+                //新配置 tile%d
+                NSString *outPath = [NSString stringWithFormat:@"%@%d.%@", baseFilename, (int)row  *32+ column, extension];
 				[bitmapData writeToFile:outPath atomically:YES];
 				
 				// Add created Tile Info to tilesInfo array

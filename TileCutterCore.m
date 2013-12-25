@@ -54,11 +54,11 @@
     
     NSImage *image = [[[NSImage alloc] initWithContentsOfFile: self.inputFilename] autorelease];
         
-    progressCol = 0;
-    progressRow = 0;
+    _progressCol = 0;
+    _progressRow = 0;
     
-    tileRowCount = [image rowsWithTileHeight: self.tileHeight];
-    tileColCount = [image columnsWithTileWidth: self.tileWidth];
+    _tileRowCount = [image rowsWithTileHeight: self.tileHeight];
+    _tileColCount = [image columnsWithTileWidth: self.tileWidth];
 	
 	NSSize outputImageSizeForPlist = [image size];
 	outputImageSizeForPlist.width /= self.contentScaleFactor;
@@ -67,13 +67,13 @@
 					  [self.inputFilename lastPathComponent], @"Filename",
 					  NSStringFromSize(outputImageSizeForPlist), @"Size", nil];
 	
-	self.allTilesInfo = [NSMutableArray arrayWithCapacity: tileRowCount * tileColCount];
+	self.allTilesInfo = [NSMutableArray arrayWithCapacity: _tileRowCount * _tileColCount];
     
 	// One ImageRep for all TileOperation
 	NSBitmapImageRep *imageRep = 
 		[[[NSBitmapImageRep alloc] initWithCGImage:[image CGImageForProposedRect:NULL context:NULL hints:nil]] autorelease];
 	
-    for (int row = 0; row < tileRowCount; row++)
+    for (int row = 0; row < _tileRowCount; row++)
     {
         TileOperation *op = [[TileOperation alloc] init];
         op.row = row;
@@ -96,11 +96,11 @@
 
 - (void)operationDidFinishTile:(TileOperation *)op
 {
-	progressCol++;
-    if (progressCol >= tileColCount)
+	_progressCol++;
+    if (_progressCol >= _tileColCount)
     {
-        progressCol = 0;
-        progressRow++;
+        _progressCol = 0;
+        _progressRow++;
     }
 	
 	if ([self.operationsDelegate respondsToSelector: _cmd])
@@ -164,7 +164,7 @@
 	op.tilesInfo = nil;
 	
 	// All Tiles Finished?
-	if (progressRow >= tileRowCount)
+	if (_progressRow >= _tileRowCount)
 	{
 		[self saveImageInfoDictionary];
 	}
