@@ -24,7 +24,7 @@
 
 @implementation Tile_CutterAppDelegate
 
-@synthesize window, tileCutterView, widthTextField, heightTextField, rowBar, columnBar, progressWindow, progressLabel, baseFilename;
+@synthesize window, tileCutterView, widthTextField, heightTextField, rowBar, columnBar, progressWindow, progressLabel, baseFilename,tileCore;
 
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename
 {
@@ -80,27 +80,21 @@
 - (IBAction)saveButtonPressed:(id)sender
 {
     NSSavePanel *sp = [NSSavePanel savePanel];
-    [sp setRequiredFileType:@"jpg"];
+    //[sp setRequiredFileType:@"jpg"];
+    [sp setAllowedFileTypes:[NSArray arrayWithObject:@"jpg"]];
     
-    [sp beginSheetForDirectory:nil 
-                          file:@"output.jpg" 
-                modalForWindow:window
-                 modalDelegate:self 
-                didEndSelector:@selector(didEndSaveSheet:returnCode:conextInfo:) 
-                   contextInfo:nil];
+
+    [sp beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+        if(result == NSFileHandlingPanelOKButton){
+            self.baseFilename = [[sp filename] stringByDeletingPathExtension];
+            self.tileCore.tileHeight = [heightTextField intValue];
+            self.tileCore.tileWidth = [widthTextField intValue];
+            
+            [self performSelector:@selector(delayPresentSheet) withObject:nil afterDelay:0.1];
+        }
+    }];
 }
--(void)didEndSaveSheet:(NSSavePanel *)savePanel
-            returnCode:(int)returnCode conextInfo:(void *)contextInfo
-{
-    if (returnCode == NSOKButton) 
-    {
-        self.baseFilename = [[savePanel filename] stringByDeletingPathExtension];
-        self.tileCore.tileHeight = [heightTextField intValue];
-        self.tileCore.tileWidth = [widthTextField intValue];
-        
-        [self performSelector:@selector(delayPresentSheet) withObject:nil afterDelay:0.1];
-    }
-}
+
 - (void)delayPresentSheet
 {
     [progressLabel setStringValue:@"Analyzing image for tile cutting…"];
